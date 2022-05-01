@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>New Book:</h1>
+    <form action="/add-book" method="post">
+        <input autocomplete="off" autofocus name="book_title" placeholder="Book Title" type="text">
+        <input autocomplete="off" autofocus name="book_author_fname" placeholder="Author First Name" type="text">
+        <input autocomplete="off" autofocus name="book_author_lname" placeholder="Author Last Name" type="text">
+        <input autocomplete="off" autofocus name="book_publication_year" placeholder="Publication Year" type="text">
+        <input type="submit" value="Add Book">
+    </form>
+
+{% endblock %}
