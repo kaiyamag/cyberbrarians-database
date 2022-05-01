@@ -2,17 +2,17 @@
 
 {% block body %}
     <h1>ToDo List:</h1>
-    <a href="/task-entry">Add a new task</a>
+    <a href="/book-entry">Add a new book</a>
     <form action="/" method="post">
         <table>
-            {% for task in todo_list %}
+            {% for book in book_list %}
                 <tr>
-                    <td>{{ task['description'] }}</td>
-                    <td><input type="checkbox" name="task_item" value={{ task['id'] }}></td>
+                    <td>{{ book['title'] }}</td>
+                    <td><input type="checkbox" name="book_item" value={{ book['book_id'] }}></td>
                 </tr>
             {% endfor %}
         </table>
-        <input type="submit" value="Delete Tasks">
+        <input type="submit" value="Delete Books">
     </form>
     </ul>
 {% endblock %}
