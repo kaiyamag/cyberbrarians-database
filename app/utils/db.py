@@ -29,11 +29,11 @@ def init_db(config):
     cursor.execute(f"use {config['DATABASE']};")
     cursor.execute(
         f""" 
-        CREATE TABLE library_members
+        CREATE TABLE library_patrons
         (
             account_id SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
-            fname VARCHAR(50),
-            lname VARCHAR(50),
+            first_name VARCHAR(50),
+            last_name VARCHAR(50),
             account_type ENUM('STUDENT', 'PROFESSOR', 'STAFF'),
             CONSTRAINT pk_library_members PRIMARY KEY (account_id)
         );
