@@ -64,32 +64,20 @@ def get_patrons(account_id):
     return jsonify({"status": "success", "patrons": result}), 200
 
 
-"""
 @patron_api_blueprint.route('/api/v1/patrons/', methods=["POST"])
 def add_patron():
-    patrondb = patronDB(g.mysql_db, g.mysql_cursor)
+    patrondb = PatronDB(g.mysql_db, g.mysql_cursor)
         
-    patron = patron(request.json['description'])
+    patron = Patron(request.json['first_name'])
     result = patrondb.insert_patron(patron)
     
     return jsonify({"status": "success", "id": result['n']}), 200
 
 
-@patron_api_blueprint.route('/api/v1/patrons/<int:n>/', methods=["PUT"])
-def update_patron(n):
-    patrondb = patronDB(g.mysql_db, g.mysql_cursor)
-
-    patron = patron(request.json['description'])
-    patrondb.update_patron(n, patron)
-    
-    return jsonify({"status": "success", "id": n}), 200
-
-
 @patron_api_blueprint.route('/api/v1/patrons/<int:n>/', methods=["DELETE"])
 def delete_patron(n):
-    patrondb = patronDB(g.mysql_db, g.mysql_cursor)
+    patrondb = PatronDB(g.mysql_db, g.mysql_cursor)
 
     patrondb.delete_patron_by_id(n)
         
     return jsonify({"status": "success", "id": n}), 200
-"""
