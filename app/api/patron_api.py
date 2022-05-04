@@ -6,7 +6,7 @@ Routes for the API and logic for managing patrons.
 
 from flask import g, request, jsonify, Blueprint
 
-from models.patron import patron, patronDB
+from models.patron import Patron, PatronDB
 
 # Establish the blueprint to link it to the flask app file (main_app.py)
 #   Need to do this before you create your routes
@@ -36,7 +36,7 @@ def get_patrons(account_id):
     args = request.args
     
     # setup the patronDB object with the mysql connection and cursor objects
-    patrondb = patronDB(g.mysql_db, g.mysql_cursor)
+    patrondb = PatronDB(g.mysql_db, g.mysql_cursor)
 
     result = None
     
@@ -52,7 +52,7 @@ def get_patrons(account_id):
             result = patrondb.select_all_patrons()
         # All patrons matching the query string "search"
         else:
-            result = patrondb.select_all_patrons_by_description(args['search'])
+            result = patrondb.select_all_patrons_by_last_name(args['search'])
     
     else:
         # Logic to request a specific patron

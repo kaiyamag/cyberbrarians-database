@@ -24,9 +24,17 @@ class PatronDB:
 
     def select_patron_by_id(self, account_id):
         select_patron_by_id = """
-                SELECT * from book WHERE account_id = %s;
+                SELECT * from patrons WHERE account_id = %s;
         """
         self._cursor.execute(select_patron_by_id, (account_id,))
+        return self._cursor.fetchall()
+
+
+    def select_all_patrons_by_last_name(self, last_name):
+        select_patrons_by_last_name = """
+            SELECT * from patrons WHERE last_name LIKE %s;
+        """
+        self._cursor.execute(select_patrons_by_last_name, (f"%{last_name}%",))
         return self._cursor.fetchall()
 
 

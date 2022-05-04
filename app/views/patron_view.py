@@ -1,36 +1,35 @@
 from flask import Blueprint, request, redirect
 from flask import render_template, g, Blueprint
-from api.book_api import Book, BookDB
+from api.patron_api import Patron, PatronDB
 
-book_list_blueprint = Blueprint('book_list_blueprint', __name__)
+patron_table_blueprint = Blueprint('patron_table_blueprint', __name__)
 
-@book_list_blueprint.route('/', methods=["GET", "POST"])
+@patron_table_blueprint.route('/', methods=["GET", "POST"])
 def index():
-    database = BookDB(g.mysql_db, g.mysql_cursor)
+    database = PatronDB(g.mysql_db, g.mysql_cursor)
 
     if request.method == "POST":
-        book_ids = request.form.getlist("book_item")
-        for book_id in book_ids:
-            database.delete_book_by_id(book_id)
+        patron_ids = request.form.getlist("patron_item")
+        for patron_id in patron_ids:
+            database.delete_patron_by_id(patron_id)
 
-    return render_template('index.html', book_list=database.select_all_books())    
-
-
-@book_list_blueprint.route('/book-entry')
-def book_entry():
-   return render_template("book-entry.html")
+    return render_template('index.html', patron=database.select_all_patrons())    
 
 
-@book_list_blueprint.route('/add-book', methods=["POST"])
-def add_book():
-    book_title = request.form.get("book_title")
-    book_author_fname = request.form.get("book_author_fname")
-    book_author_lname = request.form.get("book_author_lname")
-    book_publication_year = request.form.get("book_publication_year")
+@patron_table_blueprint.route('/patron-entry')
+def patron_entry():
+   return render_template("patron-entry.html")
+
+
+@patron_table_blueprint.route('/add-patron', methods=["POST"])
+def add_patron():
+    patron_first_name = request.form.get("patron_first_name")
+    patron_last_name = request.form.get("patron_last_name")
+    patron_account_type = request.form.get("patron_account_type")
     
-    new_book = Book(book_title, book_author_fname, book_author_lname, book_publication_year)
-    database = BookDB(g.mysql_db, g.mysql_cursor)
+    new_patron = Patron(patron_first_name, patron_last_name, patron_account_type)
+    database = PatronDB(g.mysql_db, g.mysql_cursor)
 
-    database.insert_book(new_book)
+    database.insert_patron(new_patron)
 
     return redirect('/')
