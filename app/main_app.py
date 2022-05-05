@@ -54,14 +54,10 @@ app.config["SECRET_KEY"] = uuid.uuid4().hex
 # WHERE WE ADD STUFF
 app.register_blueprint(book_list_blueprint)
 app.register_blueprint(book_api_blueprint)
-<<<<<<< HEAD
 app.register_blueprint(course_list_blueprint)
 app.register_blueprint(course_api_blueprint)
-# app.register_blueprint(patron_list_blueprint)
-=======
 app.register_blueprint(patron_table_blueprint)
 app.register_blueprint(patron_api_blueprint)
->>>>>>> 03e11a709900a5c3b2042334c72e47166ddc551f
 
 
 # Helper function to establish a connection to the database
