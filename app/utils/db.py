@@ -57,28 +57,28 @@ def init_db(config):
     )
     cursor.execute(
         f""" 
-        CREATE TABLE classes
+        CREATE TABLE courses
         (
-            class_id SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
+            course_id SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
             course_title VARCHAR(50),
             reference_book SMALLINT UNSIGNED,
             CONSTRAINT fk_reference_book FOREIGN KEY (reference_book)
             REFERENCES books (book_id),
-            CONSTRAINT pk_classes PRIMARY KEY (class_id)
+            CONSTRAINT pk_courses PRIMARY KEY (course_id)
         );
         """
     )
     cursor.execute(
         f""" 
-        CREATE TABLE class_members
+        CREATE TABLE course_members
         (
             account_id SMALLINT UNSIGNED,
-            class_id SMALLINT UNSIGNED,
+            course_id SMALLINT UNSIGNED,
             CONSTRAINT fk_account_ID FOREIGN KEY (account_id)
             REFERENCES patrons (account_id),
-            CONSTRAINT fk_class_ID FOREIGN KEY (class_id)
-            REFERENCES classes (class_id),
-            CONSTRAINT pk_class_members PRIMARY KEY (account_id, class_id)
+            CONSTRAINT fk_course_ID FOREIGN KEY (course_id)
+            REFERENCES courses (course_id),
+            CONSTRAINT pk_course_members PRIMARY KEY (account_id, course_id)
         );
         """
     )
