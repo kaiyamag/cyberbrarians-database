@@ -1,18 +1,53 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <h1>ToDo List:</h1>
+    
+    
+    <h1>Homepage</h1>
+   
+    <a href="/book-checkout-selection">See books available for checkout</a>
+    <a href="/book-entry">Add a book to the library</a>
+    <a href="/patron-entry">Add a patron to the library</a>
+    <a href="/course-entry">Associate a course with a library book</a>
+
+    <!--<form action="/checkout-book" method="post"></form>
+    -->
+
+<!--
+    <h1>List of Books:</h1>
     <a href="/book-entry">Add a new book</a>
     <form action="/" method="post">
         <table>
             {% for book in book_list %}
                 <tr>
-                    <td>{{ book['title'] }}</td>
+                    <td> <em>{{ book['title'] }}</em> by {{ book['author_fname'] }} {{ book['author_lname'] }}, 
+                        {{ book['publication_year'] }}</td>
                     <td><input type="checkbox" name="book_item" value={{ book['book_id'] }}></td>
                 </tr>
             {% endfor %}
         </table>
         <input type="submit" value="Delete Books">
     </form>
-    </ul>
+</ul>
+-->
+
 {% endblock %}
+
+<!--
+
+    <h1>Books Available to Check-Out:</h1>
+    <form action="/" method="post">
+        <table>
+            {% for book in book_list %}
+                <tr>
+                    <td> <em>{{ book['title'] }}</em> by {{ book['author_fname'] }} {{ book['author_lname'] }}, 
+                        {{ book['publication_year'] }}</td>
+                    <td><input type="checkbox" name="book_item" value={{ book['book_id'] }}></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Checkout Books">
+    </form>
+    </ul>
+
+-->
