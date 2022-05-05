@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Checkout Success!</h1>
+    You checked out:
+        <table>
+            {% for book in book_list %}
+                <tr>
+                    <td> <em>{{ book['title'] }}</em> by {{ book['author_fname'] }} {{ book['author_lname'] }}, 
+                        {{ book['publication_year'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </form>
+       
+    </ul>
+{% endblock %}

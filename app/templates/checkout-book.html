@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Books Available to Check-Out:</h1>
+    <form action="/checkout-book" method="post">
+        <table>
+            {% for book in book_list %}
+                <tr>
+                    <td> <em>{{ book['title'] }}</em> by {{ book['author_fname'] }} {{ book['author_lname'] }}, 
+                        {{ book['publication_year'] }}</td>
+                    <td><input type="checkbox" name="book_item" value={{ book['book_id'] }}></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input autocomplete="off" autofocus name="id" placeholder="Library Member ID" type="text">
+        <input type="submit" value="Checkout Books">
+    </form>
+
+        
+    </ul>
+{% endblock %}
+
+<!--
+
+    <h1>Check-out</h1>
+    <form action="/checkout-book" method="post">
+        <input autocomplete="off" autofocus name="book_id" placeholder="Book ID" type="text">
+        <input type="submit" value="Checkout Book">
+    </form>
+
+
+-->
