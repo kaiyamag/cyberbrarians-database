@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Add a New Patron:</h1>
+    <form action="/add-patron" method="post">
+        <input autocomplete="off" autofocus name="patron_first_name" placeholder="First Name" type="text">
+        <input autocomplete="off" autofocus name="patron_last_name" placeholder="Last Name" type="text">
+        <input autocomplete="off" autofocus name="patron_account_type" placeholder="Account Type" type="text">
+        <input type="submit" value="Add Patron">
+    </form>
+
+{% endblock %}
