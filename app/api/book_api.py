@@ -68,7 +68,7 @@ def get_books(book_id):
 def add_book():
     bookdb = BookDB(g.mysql_db, g.mysql_cursor)
         
-    book = Book(request.json['title'])
+    book = Book(request.json['title'])      # NOTE: Do we need to add all fields?
     result = bookdb.insert_book(book)
     
     return jsonify({"status": "success", "id": result['book_id']}), 200

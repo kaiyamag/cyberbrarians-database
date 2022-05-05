@@ -9,11 +9,11 @@ def index():
     database = PatronDB(g.mysql_db, g.mysql_cursor)
 
     if request.method == "POST":
-        patron_ids = request.form.getlist("patron_item")
+        patron_ids = request.form.getlist("account_id")
         for patron_id in patron_ids:
             database.delete_patron_by_id(patron_id)
 
-    return render_template('index.html', patron=database.select_all_patrons())    
+    return render_template('index.html', patron_table=database.select_all_patrons())    
 
 
 @patron_table_blueprint.route('/patron-entry')

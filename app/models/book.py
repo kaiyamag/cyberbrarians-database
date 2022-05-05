@@ -3,11 +3,12 @@ first name, author last name, and publication year after 1900.
 """
 class Book:
 
-    def __init__(self, title, author_fname, author_lname, publication_year):
+    def __init__(self, title, author_fname, author_lname, publication_year, checked_out_to):
         self._title = title
         self._author_fname = author_fname
         self._author_lname = author_lname
         self._publication_year = publication_year
+        self._checked_out_to = checked_out_to
 
 
 """ Manages CRUD functions for Books in the database
@@ -30,7 +31,7 @@ class BookDB:
 
     def select_book_by_id(self, book_id):
         select_book_by_id = """
-                SELECT * from book WHERE book_id = %s;
+                SELECT * from books WHERE book_id = %s;
         """
         self._cursor.execute(select_book_by_id, (book_id,))
         return self._cursor.fetchall()
@@ -57,14 +58,21 @@ class BookDB:
         return book_id
 
 
-    # def update_task(self, task_id, new_task):
-    #     update_query = """
-    #         UPDATE tasks
-    #         SET description=%s
-    #         WHERE id=%s;
-    #     """
-    #     self._cursor.execute(update_query, (new_task.description, task_id))
-    #     self._db_conn.commit()
+    def update_book(self, book_id, new_book):
+        update_query = """
+            UPDATE books
+            SET title=%s, 
+            author_fname=%s, 
+            author_lname=%s,
+            publication_year=%s,
+            checked_out_to=%s
+            WHERE book_id=%s;
+        """
+        self._cursor.execute(update_query, (new_book._title, 
+        new_book._author_fname, new_book._author_lname, new_book._publication_year, 
+        new_book._checked_out_to, book_id))
+        self._db_conn.commit()
+
 
     def delete_book_by_id(self, book_id):
         delete_query = """
@@ -73,3 +81,11 @@ class BookDB:
         """
         self._cursor.execute(delete_query, (book_id,))
         self._db_conn.commit()
+    
+
+    def select_available_books(self):
+        select_available_books = """
+                SELECT * from books WHERE checked_out_to is NULL;
+        """
+        self._cursor.execute(select_available_books)
+        return self._cursor.fetchall()
