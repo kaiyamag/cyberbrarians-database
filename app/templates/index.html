@@ -14,5 +14,17 @@
         </table>
         <input type="submit" value="Delete Books">
     </form>
+    <a href="/patron-entry">Add a new patron</a>
+    <form action="/" method="post">
+        <table>
+            {% for patron in patron_table %}
+                <tr>
+                    <td>{{ patron['first_name'] }}</td>
+                    <td><input type="checkbox" name="patron_first_name" value={{ patron['account_id'] }}></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Delete Books">
+    </form>
     </ul>
 {% endblock %}

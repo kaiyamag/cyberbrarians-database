@@ -44,7 +44,7 @@ class PatronDB:
             VALUES (%s, %s, %s);
         """
 
-        self._cursor.execute(insert_query, (patron.description, patron.creation_datetime, patron.completed))
+        self._cursor.execute(insert_query, (patron._first_name, patron._last_name, patron._account_type))
         self._cursor.execute("SELECT LAST_INSERT_ID() account_id")
         account_id = self._cursor.fetchone()
         self._db_conn.commit()

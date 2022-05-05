@@ -29,13 +29,13 @@ def init_db(config):
     cursor.execute(f"use {config['DATABASE']};")
     cursor.execute(
         f""" 
-        CREATE TABLE library_patrons
+        CREATE TABLE patrons
         (
             account_id SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
             first_name VARCHAR(50),
             last_name VARCHAR(50),
             account_type ENUM('STUDENT', 'PROFESSOR', 'STAFF'),
-            CONSTRAINT pk_library_members PRIMARY KEY (account_id)
+            CONSTRAINT pk_patrons PRIMARY KEY (account_id)
         );
         """
     )
@@ -50,7 +50,7 @@ def init_db(config):
             publication_year YEAR,
             checked_out_to SMALLINT UNSIGNED,
             CONSTRAINT fk_check_out FOREIGN KEY (checked_out_to)
-            REFERENCES library_members (account_id),
+            REFERENCES patrons (account_id),
             CONSTRAINT pk_books PRIMARY KEY (book_id)
         );
         """
@@ -75,7 +75,7 @@ def init_db(config):
             account_id SMALLINT UNSIGNED,
             class_id SMALLINT UNSIGNED,
             CONSTRAINT fk_account_ID FOREIGN KEY (account_id)
-            REFERENCES library_members (account_id),
+            REFERENCES patrons (account_id),
             CONSTRAINT fk_class_ID FOREIGN KEY (class_id)
             REFERENCES classes (class_id),
             CONSTRAINT pk_class_members PRIMARY KEY (account_id, class_id)

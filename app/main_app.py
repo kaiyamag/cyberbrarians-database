@@ -22,6 +22,8 @@ from dotenv import load_dotenv
 # Imports for blueprints and other modules written for the application
 from views.book_view import book_list_blueprint
 from api.book_api import book_api_blueprint
+from views.patron_view import patron_table_blueprint
+from api.patron_api import patron_api_blueprint
 import utils.db as DBUtils
 
 # Load all the private data from the 
@@ -50,6 +52,8 @@ app.config["SECRET_KEY"] = uuid.uuid4().hex
 # WHERE WE ADD STUFF
 app.register_blueprint(book_list_blueprint)
 app.register_blueprint(book_api_blueprint)
+app.register_blueprint(patron_table_blueprint)
+app.register_blueprint(patron_api_blueprint)
 
 
 # Helper function to establish a connection to the database
