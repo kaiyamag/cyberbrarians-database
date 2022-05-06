@@ -5,7 +5,13 @@
     <form action="/add-patron" method="post">
         <input autocomplete="off" autofocus name="patron_first_name" placeholder="First Name" type="text">
         <input autocomplete="off" autofocus name="patron_last_name" placeholder="Last Name" type="text">
-        <input autocomplete="off" autofocus name="patron_account_type" placeholder="Account Type" type="text">
+
+        <select name="account_type">
+            <option value="STUDENT">Student</option>
+            <option value="PROFESSOR">Professor</option>
+            <option value="STAFF">Staff</option>
+        </select>
+
         <input type="submit" value="Add Patron">
     </form>
 
