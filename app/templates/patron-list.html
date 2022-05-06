@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    All patrons:
+    <a href="/patron-entry">Add a new patron</a>
+    <form action="/patron-list" method="post">
+        <table>
+            {% for patron in patron_table %}
+                <tr>
+                    <td>{{ patron['first_name'] }} {{ patron['last_name'] }}</td>
+                    <td><input type="checkbox" name="account_id" value={{ patron['account_id'] }}></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Delete Patrons">
+    </form>
+
+    </ul>
+
+{% endblock %}
