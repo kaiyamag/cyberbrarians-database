@@ -51,6 +51,17 @@ class PatronDB:
         return account_id
 
 
+    def update_patron_by_id(self, account_id, updated_patron):
+        update_query = """
+            UPDATE patrons
+            SET first_name = %s, last_name =%s, account_type = %s
+            WHERE id=%s;
+        """
+
+        self._cursor.execute(update_query, (updated_patron._first_name, updated_patron._last_name, updated_patron._account_type, account_id))
+        self._db_conn.commit()
+
+
     def delete_patron_by_id(self, account_id):
         delete_query = """
             DELETE from patrons
