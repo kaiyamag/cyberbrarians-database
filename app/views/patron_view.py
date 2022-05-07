@@ -33,3 +33,17 @@ def add_patron():
     database.insert_patron(new_patron)
 
     return redirect('/')
+'''
+@patron_table_blueprint.route('/update-patron', method=["PUT"])
+def update_patron():
+    patron_first_name = request.form.get("patron_first_name")
+    patron_last_name = request.form.get("patron_last_name")
+    patron_account_type = request.form.get("patron_account_type")
+
+    updated_patron = Patron(patron_first_name, patron_last_name, patron_account_type)
+    database = PatronDB(g.mysql_db, g.mysql_cursor)
+
+    database.update_patron_by_id()
+
+    return redirect('/')
+    '''
