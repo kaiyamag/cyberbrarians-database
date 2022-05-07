@@ -68,20 +68,26 @@ def get_books(book_id):
 def add_book():
     bookdb = BookDB(g.mysql_db, g.mysql_cursor)
         
-    book = Book(request.json['title'])      # NOTE: Do we need to add all fields?
-    result = bookdb.insert_book(book)
+    book = Book(request.json['title'], request.json['author_fname'], 
+    request.json['author_lname'], request.json['publication_year'],
+    request.json['checked_out_to'])      
+
+    new_book_id = bookdb.insert_book(book)['book_id']
     
-    return jsonify({"status": "success", "id": result['book_id']}), 200
+    return jsonify({"status": "success", "id": new_book_id}), 200
 
 
-# @task_api_blueprint.route('/api/v1/tasks/<int:task_id>/', methods=["PUT"])
-# def update_task(task_id):
-#     taskdb = TaskDB(g.mysql_db, g.mysql_cursor)
+@book_api_blueprint.route('/api/v1/book/<int:book_id>/', methods=["PUT"])
+def update_book(book_id):
+    boodb = BookDB(g.mysql_db, g.mysql_cursor)
 
-#     task = Task(request.json['description'])
-#     taskdb.update_task(task_id, task)
+    book = Book(request.json['title'], request.json['author_fname'], 
+    request.json['author_lname'], request.json['publication_year'], 
+    request.json['checked_out_to'])
+
+    bookdb.update_book(book_id, book)
     
-#     return jsonify({"status": "success", "id": task_id}), 200
+    return jsonify({"status": "success", "id": book_id}), 200
 
 
 @book_api_blueprint.route('/api/v1/books/<int:book_id>/', methods=["DELETE"])
@@ -91,3 +97,18 @@ def delete_book(book_id):
     bookdb.delete_book_by_id(book_id)
         
     return jsonify({"status": "success", "id": book_id}), 200
+
+
+@book_api_blueprint.route('/api/v1/books/<int:library_member_id>/<int:book_id>/', methods=["POST"])
+def checkout_book():
+    bookdb = BookDB(g.mysql_db, g.mysql_cursor)
+    my_library = Library(g.mysql_db, g.mysql_cursor)
+        
+    book = my_library.checkout_book(library_member_id, book_id) 
+    if new_book[0] == False:
+        # Conflict: the book could not be checked out
+        return jsonify({"status": "failure", "library_member_id": result['libray_member_id'], 
+        "book_id": result['book_id']}), 409 
+    else:
+        return jsonify({"status": "success", "library_member_id": result['libray_member_id'], 
+        "book_id": result['book_id']}), 200
