@@ -17,18 +17,33 @@ def test_task_constructor():
     assert my_book._checked_out_to == None
 
 
-# def test_task_properties():
-#     desc = "Test task properties"
-#     t = Task(desc)
-#     assert t.description == desc
+def test_book_properties():
+    title = "Properties Book"
+    author_fname = "Cool"
+    author_lname = "Person"
+    publication_year = 2010
+    checked_out_to = None
+    my_book = Book(title, author_fname, author_lname, publication_year, checked_out_to)
     
-#     rename = "Test task description set"
-#     t.description = rename
-#     assert t.description == rename
+    new_title = "New Title"
+    my_book._title = new_title
+    assert my_book._title == new_title
 
-#     assert t.completed == False
-#     t.completed = 1
-#     assert t.completed == True
+    new_author_fname = "Cooler"
+    my_book._author_fname = new_author_fname
+    assert my_book._author_fname == new_author_fname
+
+    new_author_lname = "People"
+    my_book._author_lname = new_author_lname
+    assert my_book._author_lname == new_author_lname
+
+    new_publication_year = "2050"
+    my_book._publication_year = new_publication_year
+    assert my_book._publication_year == new_publication_year
+
+    assert my_book._checked_out_to == None
+
+    
 
 
 # This type of testing is NOT required, but shown for example purposes

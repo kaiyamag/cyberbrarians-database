@@ -20,7 +20,7 @@ def test_posting_a_book(flask_test_client):
     data = json.loads(request.data.decode())
 
     assert data['status'] == "success"
-    assert data['id'] == 1
+    assert data['book_id'] == 1
 
     request = flask_test_client.post('api/v1/books/', json={'title': 'A Second Book', 
     'author_fname': 'King George', 'author_lname': 'II', 'publication_year': 1901,
@@ -33,104 +33,128 @@ def test_posting_a_book(flask_test_client):
     # object.
     data = json.loads(request.data.decode())
 
-    assert data['id'] == 2
+    assert data['book_id'] == 2
 
 
-# def test_get_all_tasks(flask_test_client):
+def test_get_all_books(flask_test_client):
     
-#     # Here is how to use the test client to simulate a GET request
-#     request = flask_test_client.get('/api/v1/tasks/')
+    # Here is how to use the test client to simulate a GET request
+    request = flask_test_client.get('/api/v1/books/')
 
-#     # The body of the response is JSON, so we turn it from a string into a JSON
-#     # object.
-#     data = json.loads(request.data.decode())
+    # The body of the response is JSON, so we turn it from a string into a JSON
+    # object.
+    data = json.loads(request.data.decode())
 
-#     # Make sure we got a status code of 200
-#     assert request.status_code == 200
+    # Make sure we got a status code of 200
+    assert request.status_code == 200
 
-#     # Verify data
-#     assert len(data['tasks']) == 2
+    # Verify data
+    assert len(data['books']) == 2
 
-#     # When getting all the tasks, we cannot rely on the ordering because I did
-#     #   not enforce an ordering on the SQL query. Always be careful with
-#     #   assumptions about order unless you have explicity
-#     #   ensured that the content will be ordered
-#     for task in data['tasks']:
-#         if task['id'] == 1:
-#             assert task['description'] == 'first task'
-#         elif task['id'] == 2:
-#             assert task['description'] == 'second task'
-#         else:
-#             # We should not get here as there are only two items inserted
-#             raise Exception("Unknown task found in database!")
+    # When getting all the tasks, we cannot rely on the ordering because I did
+    #   not enforce an ordering on the SQL query. Always be careful with
+    #   assumptions about order unless you have explicity
+    #   ensured that the content will be ordered
+    for books in data['books']:
+        if books['book_id'] == 1:
+            assert books['title'] == 'My Favorite Book'
+            assert books['author_fname'] == 'Nobody'
+            assert books['author_lname'] == 'In particular'
+            assert books['publication_year'] == 1999
+            assert books['checked_out_to'] == None
+        elif books['book_id'] == 2:
+            assert books['title'] == 'A Second Book'
+            assert books['author_fname'] == 'King George'
+            assert books['author_lname'] == 'II'
+            assert books['publication_year'] == 1901
+            assert books['checked_out_to'] == None
+        else:
+            # We should not get here as there are only two items inserted
+            raise Exception("Unknown book found in database!")
 
 
-# def test_get_task_by_id(flask_test_client):
+def test_get_book_by_id(flask_test_client):
     
-#     # Here is how to use the test client to simulate a GET request
-#     request = flask_test_client.get('/api/v1/tasks/1/')
+    # Here is how to use the test client to simulate a GET request
+    request = flask_test_client.get('/api/v1/books/1/')
 
-#     # The body of the response is JSON, so we turn it from a string into a JSON
-#     # object.
-#     data = json.loads(request.data.decode())
+    # The body of the response is JSON, so we turn it from a string into a JSON
+    # object.
+    data = json.loads(request.data.decode())
 
-#     # Make sure we got a status code of 200
-#     assert request.status_code == 200
+    # Make sure we got a status code of 200
+    assert request.status_code == 200
 
-#     assert len(data['tasks']) == 1
+    assert len(data['books']) == 1
 
-#     # Get the first item from the list of tasks (which should only be task id 1)
-#     task = data['tasks'][0]
+    # Get the first item from the list of tasks (which should only be task id 1)
+    book = data['books'][0]
 
-#     # Check the id and description
-#     assert task['id'] == 1
-#     assert task['description'] == 'first task'
-
-
-# def test_get_task_by_description_search(flask_test_client):
-
-#     # Here is how to use the test client to simulate a GET request with a query string
-#     request = flask_test_client.get('/api/v1/tasks/?search=second')
-
-#     # The body of the response is JSON, so we turn it from a string into a JSON
-#     # object.
-#     data = json.loads(request.data.decode())
-
-#     # Make sure we got a status code of 200
-#     assert request.status_code == 200
-
-#     # Verify data
-#     assert len(data['tasks']) == 1
-
-#     # Since I know this test should only return one value I can request
-#     #   the task from the list of tasks via its index
-#     task = data['tasks'][0]
-
-#     assert task['id'] == 2
-#     assert task['description'] == 'second task'
+    # Check the id and description
+    assert book['book_id'] == 1
+    assert book['title'] == 'My Favorite Book'
+    assert book['author_fname'] == 'Nobody'
+    assert book['author_lname'] == 'In particular'
+    assert book['publication_year'] == 1999
+    assert book['checked_out_to'] == None
 
 
-# def test_update_task_by_id(flask_test_client):
+def test_get_book_by_description_search(flask_test_client):
+
+    # Here is how to use the test client to simulate a GET request with a query string
+    request = flask_test_client.get('/api/v1/books/?search=second')
+
+    # The body of the response is JSON, so we turn it from a string into a JSON
+    # object.
+    data = json.loads(request.data.decode())
+
+    # Make sure we got a status code of 200
+    assert request.status_code == 200
+
+    # Verify data
+    assert len(data['books']) == 1
+
+    # Since I know this test should only return one value I can request
+    #   the task from the list of tasks via its index
+    book = data['books'][0]
+
+    assert book['book_id'] == 2
+    assert book['title'] == 'A Second Book'
+    assert book['author_fname'] == 'King George'
+    assert book['author_lname'] == 'II'
+    assert book['publication_year'] == 1901
+    assert book['checked_out_to'] == None
+
+
+def test_update_book_by_id(flask_test_client):
     
-#     # Add a new task to the list
-#     request = flask_test_client.post('/api/v1/tasks/', json={'description': 'task to be updated'})
-#     assert request.status_code == 200
+    # Add a new task to the list
+    request = flask_test_client.post('/api/v1/books/', json={'title': 'A Book via Post', 
+    'author_fname': 'Dr.', 'author_lname': 'Suess', 'publication_year': 2000,
+    'checked_out_to': None})
+    assert request.status_code == 200
     
-#     data = json.loads(request.data.decode())
-#     task_id = data['id']
+    data = json.loads(request.data.decode())
+    book_id = data['book_id']
 
-#     # Here is how to use the test client to simulate a PUT request
-#     request = flask_test_client.put(f'/api/v1/tasks/{task_id}/', json={'description': 'updated via test'})
+    # Here is how to use the test client to simulate a PUT request
+    request = flask_test_client.put(f'/api/v1/books/{book_id}/', json={'title': 'Updated Book', 
+    'author_fname': 'Someone', 'author_lname': 'Awesome', 'publication_year': 2022,
+    'checked_out_to': None})
     
-#     # Make sure we got a status code of 200
-#     assert request.status_code == 200
+    # Make sure we got a status code of 200
+    assert request.status_code == 200
 
-#     data = json.loads(request.data.decode())
-#     assert task_id == data['id']
+    data = json.loads(request.data.decode())
+    assert book_id == data['book_id']
 
-#     request = flask_test_client.get(f'/api/v1/tasks/{task_id}/')
-#     data = json.loads(request.data.decode())
+    request = flask_test_client.get(f'/api/v1/books/{book_id}/')
+    data = json.loads(request.data.decode())
 
-#     task = data['tasks'][0]
-#     assert task['id'] == task_id
-#     assert task['description'] == 'updated via test'
+    book = data['books'][0]
+    assert book['book_id'] == book_id
+    assert book['title'] == 'Updated Book'
+    assert book['author_fname'] == 'Someone'
+    assert book['author_lname'] == 'Awesome'
+    assert book['publication_year'] == 2022
+    assert book['checked_out_to'] == None
