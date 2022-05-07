@@ -79,7 +79,7 @@ def add_book():
 
 @book_api_blueprint.route('/api/v1/book/<int:book_id>/', methods=["PUT"])
 def update_book(book_id):
-    boodb = BookDB(g.mysql_db, g.mysql_cursor)
+    bookdb = BookDB(g.mysql_db, g.mysql_cursor)
 
     book = Book(request.json['title'], request.json['author_fname'], 
     request.json['author_lname'], request.json['publication_year'], 
