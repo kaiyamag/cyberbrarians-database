@@ -18,7 +18,7 @@ book_api_blueprint = Blueprint("book_api_blueprint", __name__)
 #   In the case below we can optionally add the id number for a task to the end of the url
 #   so we can retrieve a specific task or the entire list of tasks as a JSON object
 @book_api_blueprint.route('/api/v1/books/', defaults={'book_id':None}, methods=["GET"])
-@book_api_blueprint.route('/api/v1/book/<int:book_id>/', methods=["GET"])
+@book_api_blueprint.route('/api/v1/books/<int:book_id>/', methods=["GET"])
 def get_books(book_id):
     """
     get_books can take urls in a variety of forms:
@@ -74,12 +74,12 @@ def add_book():
 
     new_book_id = bookdb.insert_book(book)['book_id']
     
-    return jsonify({"status": "success", "id": new_book_id}), 200
+    return jsonify({"status": "success", "book_id": new_book_id}), 200
 
 
-@book_api_blueprint.route('/api/v1/book/<int:book_id>/', methods=["PUT"])
+@book_api_blueprint.route('/api/v1/books/<int:book_id>/', methods=["PUT"])
 def update_book(book_id):
-    boodb = BookDB(g.mysql_db, g.mysql_cursor)
+    bookdb = BookDB(g.mysql_db, g.mysql_cursor)
 
     book = Book(request.json['title'], request.json['author_fname'], 
     request.json['author_lname'], request.json['publication_year'], 
@@ -87,7 +87,7 @@ def update_book(book_id):
 
     bookdb.update_book(book_id, book)
     
-    return jsonify({"status": "success", "id": book_id}), 200
+    return jsonify({"status": "success", "book_id": book_id}), 200
 
 
 @book_api_blueprint.route('/api/v1/books/<int:book_id>/', methods=["DELETE"])
@@ -96,7 +96,7 @@ def delete_book(book_id):
 
     bookdb.delete_book_by_id(book_id)
         
-    return jsonify({"status": "success", "id": book_id}), 200
+    return jsonify({"status": "success", "book_id": book_id}), 200
 
 
 @book_api_blueprint.route('/api/v1/books/<int:library_member_id>/<int:book_id>/', methods=["POST"])
