@@ -55,6 +55,7 @@ class BookDB:
         self._cursor.execute("SELECT LAST_INSERT_ID() book_id")
         book_id = self._cursor.fetchone()
         self._db_conn.commit()
+
         return book_id
 
 

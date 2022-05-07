@@ -65,7 +65,7 @@ class PatronDB:
     def delete_patron_by_id(self, account_id):
         delete_query = """
             DELETE from patrons
-            WHERE id=%s;
+            WHERE account_id=%s;
         """
         self._cursor.execute(delete_query, (account_id,))
         self._db_conn.commit()

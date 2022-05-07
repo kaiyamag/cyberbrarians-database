@@ -9,20 +9,8 @@
     <a href="/book-entry">Add a book to the library</a>
     <a href="/patron-entry">Add a patron to the library</a>
     <a href="/course-entry">Associate a course with a library book</a>
+    <a href="/patron-list">See all patrons</a>
 
-    All patrons:
-    <a href="/patron-entry">Add a new patron</a>
-    <form action="/" method="post">
-        <table>
-            {% for patron in patron_table %}
-                <tr>
-                    <td>{{ patron['first_name'] }}</td>
-                    <td><input type="checkbox" name="patron_first_name" value={{ patron['account_id'] }}></td>
-                </tr>
-            {% endfor %}
-        </table>
-        <input type="submit" value="Delete Patrons">
-    </form>
-    </ul>
+   
 
 {% endblock %}
