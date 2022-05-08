@@ -2,7 +2,7 @@ import pytest
 
 from app.models.book import Book
 
-def test_task_constructor():
+def test_book_constructor():
     title = "My Book"
     author_fname = "Kaiya"
     author_lname = "Magnuson"
