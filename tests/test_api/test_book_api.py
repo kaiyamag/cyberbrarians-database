@@ -99,7 +99,7 @@ def test_get_book_by_id(flask_test_client):
     assert book['checked_out_to'] == None
 
 
-def test_get_book_by_description_search(flask_test_client):
+def test_get_book_by_title_search(flask_test_client):
 
     # Here is how to use the test client to simulate a GET request with a query string
     request = flask_test_client.get('/api/v1/books/?search=second')
