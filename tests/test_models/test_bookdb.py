@@ -19,16 +19,16 @@ def test_book_insert(db_test_client):
     conn.commit()
 
 
-# def test_task_delete(db_test_client):
-#     conn, cursor = db_test_client
-#     taskdb = TaskDB(conn, cursor)
+def test_book_delete(db_test_client):
+    conn, cursor = db_test_client
+    bookdb = BookDB(conn, cursor)
     
-#     taskdb.insert_task(Task("Delete Me!"))
+    bookdb.insert_book(Book("Delete Me!", "William", "Shakespeare", 2013, None))
 
-#     result = taskdb.select_task_by_id(2)[0]
-#     assert result['description'] == "Delete Me!"
+    result = bookdb.select_book_by_id(2)[0]
+    assert result['title'] == "Delete Me!"
 
-#     taskdb.delete_task_by_id(2)
-#     result = taskdb.select_task_by_id(2)
-#     assert len(result) == 0
-#     conn.commit()
+    bookdb.delete_book_by_id(2)
+    result = bookdb.select_book_by_id(2)
+    assert len(result) == 0
+    conn.commit()
