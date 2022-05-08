@@ -20,6 +20,8 @@ class BookDB:
         self._cursor = db_cursor
     
 
+    """ Returns a list of all books in database as dictionaries
+    """
     def select_all_books(self):
         select_all_query = """
             SELECT * from books;
@@ -29,6 +31,8 @@ class BookDB:
         return self._cursor.fetchall()
 
 
+    """ Returns a list with the book corresponding the provided book_id
+    """
     def select_book_by_id(self, book_id):
         select_book_by_id = """
                 SELECT * from books WHERE book_id = %s;
@@ -37,6 +41,9 @@ class BookDB:
         return self._cursor.fetchall()
 
 
+    """ Returns a list of all books with a title similar to the provided search
+    term.
+    """
     def select_all_books_by_title(self, title):
         select_books_by_title = """
             SELECT * from books WHERE title LIKE %s;
@@ -45,6 +52,9 @@ class BookDB:
         return self._cursor.fetchall()
 
 
+    """ Adds a new book to the books table. Takes a book object and returns the
+    book_id of the newly added book record.
+    """
     def insert_book(self, book):
         insert_query = """
             INSERT INTO books (title, author_fname, author_lname, publication_year)
@@ -59,6 +69,10 @@ class BookDB:
         return book_id
 
 
+    """ Sets the title, author_fname, author_lname, publication_year, and 
+    checked_out_to of a given book. Takes the book_id of the book to update
+    and a book object to replace that book with.
+    """
     def update_book(self, book_id, new_book):
         update_query = """
             UPDATE books
@@ -75,6 +89,8 @@ class BookDB:
         self._db_conn.commit()
 
 
+    """ Deletes the book record corresponding to the given book_id
+    """
     def delete_book_by_id(self, book_id):
         delete_query = """
             DELETE from books
@@ -84,6 +100,9 @@ class BookDB:
         self._db_conn.commit()
     
 
+    """ Returns a list of all books available for checkour in database as 
+    dictionaries. Available books must not be currently checked out to anyone
+    """
     def select_available_books(self):
         select_available_books = """
                 SELECT * from books WHERE checked_out_to is NULL;

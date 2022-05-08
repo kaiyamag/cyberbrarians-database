@@ -4,7 +4,7 @@ Collection of functions to help establish the database
 import mysql.connector
 
 
-# Connect to MySQL and the task database
+# Connect to MySQL and the cyberbrary database
 def connect_db(config):
     conn = mysql.connector.connect(
         host=config["DBHOST"],
@@ -16,7 +16,7 @@ def connect_db(config):
 
 
 # Setup for the Database
-#   Will erase the database if it exists
+# Will erase the database if it exists
 def init_db(config):
     conn = mysql.connector.connect(
         host=config["DBHOST"],
