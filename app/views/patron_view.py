@@ -39,7 +39,10 @@ def add_patron():
     new_patron = Patron(patron_first_name, patron_last_name, patron_account_type)
     database = PatronDB(g.mysql_db, g.mysql_cursor)
 
-    database.insert_patron(new_patron)
+    # Check that patron account type is valid.
+    # NOTE: The client is not informed of an error if they input the wrong type
+    if new_patron._account_type in ['STUDENT', 'PROFESSOR', 'STAFF']:
+        database.insert_patron(new_patron)
 
     return redirect('/')
 '''
