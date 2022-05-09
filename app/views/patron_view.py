@@ -64,13 +64,4 @@ def update_patron():
 def patron_list():
     database = PatronDB(g.mysql_db, g.mysql_cursor)
 
-    if request.method == "POST":
-        # DEBUG
-        print("Got a POST request")
-
-        patron_ids = request.form.getlist("account_id")
-        for patron_id in patron_ids:
-            database.delete_patron_by_id(patron_id)
-
-
     return render_template('patron-list.html', patron_table=database.select_all_patrons())   

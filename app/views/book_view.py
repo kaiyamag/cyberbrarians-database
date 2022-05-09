@@ -101,5 +101,12 @@ def checkout_book():
         
         return render_template('checkout-success.html', book_list=book_list)
 
+
+@book_list_blueprint.route('/book-list', methods=["GET", "POST"])
+def patron_list():
+    database = BookDB(g.mysql_db, g.mysql_cursor)
+
+    return render_template('book-list.html', book_table=database.select_all_books())   
+
  
   
