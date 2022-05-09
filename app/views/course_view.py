@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from flask import Blueprint, request, redirect
 from flask import render_template, g, Blueprint
 from api.course_api import Course, CourseDB
@@ -8,11 +9,6 @@ course_list_blueprint = Blueprint('course_list_blueprint', __name__)
 
 @course_list_blueprint.route('/course-entry')
 def course_entry():
-   return render_template('course-entry.html')
-
-
-@course_list_blueprint.route('/add-course', methods=["POST"])
-def add_course():
     course_title = request.form.get("course_title")
     course_reference_book = request.form.get("course_reference_book")
     
@@ -23,4 +19,9 @@ def add_course():
 
     return redirect('/')
 
-  
+
+@course_list_blueprint.route('/course-list', methods=["POST"])
+def list_courses():
+    database = CourseDB(g.mysql_db, g.mysql_cursor)
+    
+    return render_template('patron-list.html', patron_table=database.select_all_courses())   
