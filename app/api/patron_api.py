@@ -22,9 +22,9 @@ patron_api_blueprint = Blueprint("patron_api_blueprint", __name__)
 def get_patrons(account_id):
     """
     get_patrons can take urls in a variety of forms:
-        * /api/v1/patron/ - get all patrons
-        * /api/v1/patron/1 - get the patron with id 1 (or any other valid id)
-        * /api/v1/patron/?search="eggs" - find all patrons with the string "eggs" anywhere in the description
+        * /api/v1/patrons/ - get all patrons
+        * /api/v1/patrons/1 - get the patron with id 1 (or any other valid id)
+        * /api/v1/patrons/?search="eggs" - find all patrons with the string "eggs" anywhere in the description
             * The ? means we have a query string which is essentially a list of key, value pairs
                 where the ? indicates the start of the query string parameters and the pairs are separated
                 by ampersands like so:

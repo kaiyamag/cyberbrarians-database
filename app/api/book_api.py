@@ -22,9 +22,9 @@ book_api_blueprint = Blueprint("book_api_blueprint", __name__)
 def get_books(book_id):
     """
     get_books can take urls in a variety of forms:
-        * /api/v1/book/ - get all books
-        * /api/v1/book/1 - get the books with id 1 (or any other valid id)
-        * /api/v1/book/?search="eggs" - find all books with the string "eggs" anywhere in the description
+        * /api/v1/books/ - get all books
+        * /api/v1/books/1 - get the books with id 1 (or any other valid id)
+        * /api/v1/books/?search="eggs" - find all books with the string "eggs" anywhere in the description
             * The ? means we have a query string which is essentially a list of key, value pairs
                 where the ? indicates the start of the query string parameters and the pairs are separated
                 by ampersands like so:
@@ -125,12 +125,12 @@ def delete_book(book_id):
     return jsonify({"status": "success", "book_id": book_id}), 200
 
 
-@book_api_blueprint.route('/api/v1/books/<int:library_member_id>/<int:book_id>/', methods=["POST"])
-def checkout_book(library_member_id, book_id):
+@book_api_blueprint.route('/api/v1/books/<int:patron_id>/<int:book_id>/', methods=["POST"])
+def checkout_book(patron_id, book_id):
     """Assigns a book to a patron, signifying the book has been checked out
 
     Args:
-        library_member_id: the account_id of the patron checking out the book
+        patron_id: the account_id of the patron checking out the book
         book_id: the book_id of the book to be checked out
 
     Returns: 
@@ -141,11 +141,11 @@ def checkout_book(library_member_id, book_id):
     bookdb = BookDB(g.mysql_db, g.mysql_cursor)
     my_library = Library(g.mysql_db, g.mysql_cursor)
         
-    book = my_library.checkout_book(library_member_id, book_id) 
+    book = my_library.checkout_book(patron_id, book_id) 
     if new_book[0] == False:
         # Conflict: the book could not be checked out
-        return jsonify({"status": "failure", "library_member_id": result['libray_member_id'], 
+        return jsonify({"status": "failure", "patron_id": result['patron_id'], 
         "book_id": result['book_id']}), 409 
     else:
-        return jsonify({"status": "success", "library_member_id": result['libray_member_id'], 
+        return jsonify({"status": "success", "patron_id": result['patron_id'], 
         "book_id": result['book_id']}), 200
