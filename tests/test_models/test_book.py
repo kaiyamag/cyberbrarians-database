@@ -1,8 +1,17 @@
+"""
+test_book.py
+
+Collection of functions that test the Book model from book.py
+"""
+
 import pytest
 
 from app.models.book import Book
 
 def test_book_constructor():
+    """ Tests the constructor for a Book object
+    """
+
     title = "My Book"
     author_fname = "Kaiya"
     author_lname = "Magnuson"
@@ -17,6 +26,9 @@ def test_book_constructor():
 
 
 def test_book_properties():
+    """Tests setting the properties of a Book object
+    """
+
     title = "Properties Book"
     author_fname = "Cool"
     author_lname = "Person"
@@ -43,8 +55,6 @@ def test_book_properties():
     assert my_book._checked_out_to == None
 
     
-
-
 # This type of testing is NOT required, but shown for example purposes
 # def test_task_properties_exceptions():
 #     t = Task("Foobar")

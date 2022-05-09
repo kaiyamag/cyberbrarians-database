@@ -1,3 +1,9 @@
+"""
+test_book_api.py
+
+Collection of functions to be run with pytest to test all api functionality
+"""
+
 import json
 
 
@@ -5,6 +11,10 @@ import json
 #   of our webservice application to test our api. This is provided by the pytest fixture in conftest.py
 #   (note the parameter name matches the name of the fixture function).
 def test_posting_a_book(flask_test_client):
+    """Test adding multiple books to the database via POST request
+    Args:
+        flask_test_client: fixture function from conftest.py
+    """
 
     # Simulate a post request that sends json data
     request = flask_test_client.post('api/v1/books/', json={'title': 'My Favorite Book', 
@@ -37,6 +47,12 @@ def test_posting_a_book(flask_test_client):
 
 
 def test_get_all_books(flask_test_client):
+    """Test getting a list of all books in database. Relies on book records
+    added in test_posting_a_book().
+
+    Args:
+        flask_test_client: fixture function from conftest.py
+    """
     
     # Here is how to use the test client to simulate a GET request
     request = flask_test_client.get('/api/v1/books/')
@@ -74,6 +90,10 @@ def test_get_all_books(flask_test_client):
 
 
 def test_get_book_by_id(flask_test_client):
+    """Test selecting a book from the database by its book_id vie GET
+    Args:
+        flask_test_client: fixture function from conftest.py
+    """
     
     # Here is how to use the test client to simulate a GET request
     request = flask_test_client.get('/api/v1/books/1/')
@@ -100,6 +120,10 @@ def test_get_book_by_id(flask_test_client):
 
 
 def test_get_book_by_title_search(flask_test_client):
+    """Test selecting a book by a keyword search in its title via GET
+    Args:
+        flask_test_client: fixture function from conftest.py
+    """
 
     # Here is how to use the test client to simulate a GET request with a query string
     request = flask_test_client.get('/api/v1/books/?search=second')
@@ -127,6 +151,10 @@ def test_get_book_by_title_search(flask_test_client):
 
 
 def test_update_book_by_id(flask_test_client):
+    """Test updating a book record in the database via PUT request
+    Args:
+        flask_test_client: fixture function from conftest.py
+    """
     
     # Add a new task to the list
     request = flask_test_client.post('/api/v1/books/', json={'title': 'A Book via Post', 

@@ -1,9 +1,21 @@
+"""
+test_bookdb.py
+
+Collection of functions to test the interface with the book database in book.py
+"""
+
 from app.models.book import Book, BookDB
 
 # By using the parameter db_test_client, we automatically get access to our test
 #   database provided by the pytest fixture in conftest.py
 #   (note the parameter name matches the name of the fixture function).
 def test_book_insert(db_test_client):
+    """Test that a book record is correctly added to the database
+
+    Args:
+        db_test_client: fixture function from conftest.py
+    """
+
     # The test fixture only setups the 
     conn, cursor = db_test_client
     bookdb = BookDB(conn, cursor)
@@ -20,6 +32,12 @@ def test_book_insert(db_test_client):
 
 
 def test_book_delete(db_test_client):
+    """Test that a book record is correctly deleted from the database
+
+    Args:
+        db_test_client: fixture function from conftest.py
+    """
+    
     conn, cursor = db_test_client
     bookdb = BookDB(conn, cursor)
     

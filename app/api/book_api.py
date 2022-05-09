@@ -15,16 +15,16 @@ book_api_blueprint = Blueprint("book_api_blueprint", __name__)
 
 # Define routes for the API
 #   Note that we can stack the decorators to associate similar routes to the same function.
-#   In the case below we can optionally add the id number for a task to the end of the url
-#   so we can retrieve a specific task or the entire list of tasks as a JSON object
+#   In the case below we can optionally add the id number for a book to the end of the url
+#   so we can retrieve a specific book or the entire list of books as a JSON object
 @book_api_blueprint.route('/api/v1/books/', defaults={'book_id':None}, methods=["GET"])
 @book_api_blueprint.route('/api/v1/books/<int:book_id>/', methods=["GET"])
 def get_books(book_id):
     """
     get_books can take urls in a variety of forms:
-        * /api/v1/book/ - get all tasks
-        * /api/v1/book/1 - get the task with id 1 (or any other valid id)
-        * /api/v1/book/?search="eggs" - find all tasks with the string "eggs" anywhere in the description
+        * /api/v1/book/ - get all books
+        * /api/v1/book/1 - get the books with id 1 (or any other valid id)
+        * /api/v1/book/?search="eggs" - find all books with the string "eggs" anywhere in the description
             * The ? means we have a query string which is essentially a list of key, value pairs
                 where the ? indicates the start of the query string parameters and the pairs are separated
                 by ampersands like so:
@@ -35,37 +35,44 @@ def get_books(book_id):
     # To access a query string, we need to get the arguments from our web request object
     args = request.args
     
-    # setup the TaskDB object with the mysql connection and cursor objects
+    # setup the BookDB object with the mysql connection and cursor objects
     bookdb = BookDB(g.mysql_db, g.mysql_cursor)
 
     result = None
     
-    # If an ID for the task is not supplied then we are either returning all
-    #   tasks or any tasks that match the search query string.
+    # If an ID for the book is not supplied then we are either returning all
+    #   books or any books that match the search query string.
     if book_id is None:
-        # Logic to find all or multiple tasks
+        # Logic to find all or multiple books
 
         # Since the args for the query string are in the form of a dictionary, we can
         #   simply check if the key is in the dictionary. If not, the web request simply
         #   did not supply this information.
         if not 'search' in args:
             result = bookdb.select_all_books()
-        # All tasks matching the query string "search"
         else:
+            # All books matching the query string "search"
             result = bookdb.select_all_books_by_title(args['search'])
     
     else:
-        # Logic to request a specific task
-        # We get a specific tasks based on the provided task ID
+        # Logic to request a specific books
+        # We get a specific books based on the provided book ID
         result = bookdb.select_book_by_id(book_id)
 
     # Sending a response of JSON including a human readable status message,
-    #   list of the tasks found, and a HTTP status code (200 OK).
+    #   list of the books found, and a HTTP status code (200 OK).
     return jsonify({"status": "success", "books": result}), 200
 
 
 @book_api_blueprint.route('/api/v1/books/', methods=["POST"])
 def add_book():
+    """Add a new book to the books table
+
+    Returns: 
+        json: A status message including the book_id of the newly added book
+        HTML status code: 200 if successful
+    """
+
     bookdb = BookDB(g.mysql_db, g.mysql_cursor)
         
     book = Book(request.json['title'], request.json['author_fname'], 
@@ -79,6 +86,16 @@ def add_book():
 
 @book_api_blueprint.route('/api/v1/books/<int:book_id>/', methods=["PUT"])
 def update_book(book_id):
+    """Update the attributes of a book
+
+    Args:
+        book_id: the book_id of the book record to be updated
+
+    Returns: 
+        json: A status message including the book_id of the newly added book
+        HTML status code: 200 if successful
+    """
+
     bookdb = BookDB(g.mysql_db, g.mysql_cursor)
 
     book = Book(request.json['title'], request.json['author_fname'], 
@@ -92,15 +109,35 @@ def update_book(book_id):
 
 @book_api_blueprint.route('/api/v1/books/<int:book_id>/', methods=["DELETE"])
 def delete_book(book_id):
-    bookdb = BookDB(g.mysql_db, g.mysql_cursor)
+    """Delete a book from the database
 
+    Args:
+        book_id: the book_id of the book record to be deleted
+
+    Returns: 
+        json: A status message including the book_id of the newly added book
+        HTML status code: 200 if successful
+    """
+
+    bookdb = BookDB(g.mysql_db, g.mysql_cursor)
     bookdb.delete_book_by_id(book_id)
         
     return jsonify({"status": "success", "book_id": book_id}), 200
 
 
 @book_api_blueprint.route('/api/v1/books/<int:library_member_id>/<int:book_id>/', methods=["POST"])
-def checkout_book():
+def checkout_book(library_member_id, book_id):
+    """Assigns a book to a patron, signifying the book has been checked out
+
+    Args:
+        library_member_id: the account_id of the patron checking out the book
+        book_id: the book_id of the book to be checked out
+
+    Returns: 
+        json: A status message including the book_id of the newly added book
+        HTML status code: 200 if successful, 409 if book could not be checked out
+    """
+    
     bookdb = BookDB(g.mysql_db, g.mysql_cursor)
     my_library = Library(g.mysql_db, g.mysql_cursor)
         
