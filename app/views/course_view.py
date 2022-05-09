@@ -20,8 +20,8 @@ def course_entry():
     return redirect('/')
 
 
-@course_list_blueprint.route('/course-list', methods=["POST"])
+@course_list_blueprint.route('/course-list', methods=["GET", "POST"])
 def list_courses():
     database = CourseDB(g.mysql_db, g.mysql_cursor)
-    
-    return render_template('patron-list.html', patron_table=database.select_all_courses())   
+
+    return render_template('course-list.html', course_table=database.select_all_courses())   
