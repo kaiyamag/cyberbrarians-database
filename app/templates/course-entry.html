@@ -3,8 +3,17 @@
 {% block body %}
     <h1>New Course:</h1>
     <form action="/course-entry" method="POST">
-        <input autocomplete="off" autofocus name="course_title" placeholder="Course Title" type="text">
-        <input autocomplete="off" autofocus name="course_reference_book" placeholder="Reference Book" type="text">
+        <p>
+            <input autocomplete="off" autofocus name="course_title" placeholder="Course Title" type="text">
+            <br>
+            <label for="book">Book:</label>
+            <select name="course_reference_book" id="book">
+                {% for book in books %}
+                    <option value={{book["book_id"]}}>{{book["title"]}}</option>
+                {% endfor %}
+            </select>
+            <br>
+        </p>
         <input type="submit" value="Add Course">
     </form>
 

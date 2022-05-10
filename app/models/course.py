@@ -59,7 +59,7 @@ class CourseDB:
         update_query = """
             UPDATE courses
             SET course_title=%s, 
-            reference_book=%s, 
+            reference_book=%s
             WHERE course_id=%s;
         """
         self._cursor.execute(update_query, (new_course._course_title, 

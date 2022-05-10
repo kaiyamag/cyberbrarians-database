@@ -1,7 +1,7 @@
-from asyncio.windows_events import NULL
 from flask import Blueprint, request, redirect
 from flask import render_template, g, Blueprint
 from api.course_api import Course, CourseDB
+from api.book_api import BookDB
 from models.library import Library
 
 course_list_blueprint = Blueprint('course_list_blueprint', __name__)
@@ -9,7 +9,8 @@ course_list_blueprint = Blueprint('course_list_blueprint', __name__)
 
 @course_list_blueprint.route('/course-entry')
 def course_entry():
-   return render_template("course-entry.html")
+   database = BookDB(g.mysql_db, g.mysql_cursor)
+   return render_template("course-entry.html", books=database.select_all_books())
 
 
 @course_list_blueprint.route('/course-entry', methods=["POST"])
@@ -31,14 +32,26 @@ def list_courses():
 
     return render_template('course-list.html', course_table=database.select_all_courses())
 
-"""
+
 @course_list_blueprint.route('/course-update-select', methods=["GET", "POST"])
 def select_courses_to_edit():
-    course_id = request.form.get("course_id")
-    database = CourseDB(g.mysql_db, g.mysql_cursor)
-    return render_template('/course-update-modify-form')
+    course_database = CourseDB(g.mysql_db, g.mysql_cursor)
 
+    if request.method == "POST":
+        course_id = request.form.get("course_id")
+        new_course_title = request.form.get("course_title")
+        new_reference_book = request.form.get("course_reference_book")
+        course_database.update_course(course_id, Course(new_course_title, new_reference_book))
+        return redirect('/')
 
+    book_database = BookDB(g.mysql_db, g.mysql_cursor)
+    return render_template(
+        '/course-update-select.html',
+        books=book_database.select_all_books(),
+        courses=course_database.select_all_courses()
+    )
+
+"""
 @course_list_blueprint.route('/course-update-modify-form', methods=["GET", "POST"])
 def update_courses():
     

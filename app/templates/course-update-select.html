@@ -1,9 +1,26 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <h1>Enter ID of Course To Modify:</h1>
+    <h1>Course Modify:</h1>
     <form action="/course-update-select" method="POST">
-        <input autocomplete="off" autofocus name="course_id" placeholder="Course ID" type="text">
+        <label for="course">Select Course to Update:</label>
+            <select name="course_id" id="course">
+                {% for course in courses %}
+                    <option value={{course["course_id"]}}>{{course["course_title"]}}</option>
+                {% endfor %}
+            </select>
+        <br>
+        
+        <h2>New Course Information:</h2>
+        <input autocomplete="off" name="course_title" placeholder="New course description" type="text">
+        <br>
+        <label for="book">Book:</label>
+            <select name="course_reference_book" id="book">
+                {% for book in books %}
+                    <option value={{book["book_id"]}}>{{book["title"]}}</option>
+                {% endfor %}
+            </select>
+        <br>
         <input type="submit" value="Update this Course">
     </form>
         
