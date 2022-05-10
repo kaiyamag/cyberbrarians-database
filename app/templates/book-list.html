@@ -3,12 +3,11 @@
 {% block body %}
     All Library Books:
     <a href="/book-list">List of Library Books</a>
-    <form action="/book-list" method="POST">
+    <form action="/book-list" method="GET">
         <table>
             {% for book in book_table %}
                 <tr>
-                    <td><em>{{ book['book_title']}}</em> {{book['book_author_lname']}} {{book['book_author_fname']}}</td>
-                    <td><input type="checkbox" name="book_id" value={{ book['book_id'] }}></td>
+                    <td><em>{{ book['title']}}</em> {{book['author_lname']}} {{book['author_fname']}}</td>
                 </tr>
             {% endfor %}
         </table>

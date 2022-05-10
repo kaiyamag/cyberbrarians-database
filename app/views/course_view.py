@@ -24,4 +24,4 @@ def course_entry():
 def list_courses():
     database = CourseDB(g.mysql_db, g.mysql_cursor)
 
-    return render_template('course-list.html', course_table=database.select_all_courses())   
+    return render_template('course-list.html', course_table=database.select_all_courses())
