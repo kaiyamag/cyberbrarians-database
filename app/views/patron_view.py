@@ -1,3 +1,4 @@
+from cgitb import html
 from flask import Blueprint, request, redirect
 from flask import render_template, g, Blueprint
 from api.patron_api import Patron, PatronDB
@@ -65,3 +66,13 @@ def patron_list():
     database = PatronDB(g.mysql_db, g.mysql_cursor)
 
     return render_template('patron-list.html', patron_table=database.select_all_patrons())   
+
+
+@patron_table_blueprint.route('/patron-remove', methods=['GET', 'DELETE'])
+def patron_delete():
+    account_id_to_delete = request.form.get("account_id")
+    database = PatronDB(g.mysql_db, g.mysql_cursor)
+
+    database.delete_patron_by_id(account_id_to_delete)
+
+    return
