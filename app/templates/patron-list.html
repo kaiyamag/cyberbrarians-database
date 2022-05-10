@@ -7,8 +7,7 @@
         <table>
             {% for patron in patron_table %}
                 <tr>
-                    <td>{{ patron['first_name'] }} {{ patron['last_name'] }}</td>
-                    <td><input type="checkbox" name="account_id" value={{ patron['account_id'] }}></td>
+                    <td>{{patron['account_id']}} {{ patron['first_name'] }} {{ patron['last_name'] }}</td>
                 </tr>
             {% endfor %}
         </table>

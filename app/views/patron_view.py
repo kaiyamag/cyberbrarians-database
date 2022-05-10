@@ -30,11 +30,11 @@ def patron_entry():
    return render_template("patron-entry.html")
 
 
-@patron_table_blueprint.route('/add-patron', methods=["POST"])
+@patron_table_blueprint.route('/patron-entry', methods=["POST"])
 def add_patron():
     patron_first_name = request.form.get("patron_first_name")
     patron_last_name = request.form.get("patron_last_name")
-    patron_account_type = request.form.get("patron_account_type")
+    patron_account_type = request.form.get("account_type")
     
     new_patron = Patron(patron_first_name, patron_last_name, patron_account_type)
     database = PatronDB(g.mysql_db, g.mysql_cursor)
