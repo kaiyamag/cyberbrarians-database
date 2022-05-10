@@ -9,6 +9,11 @@ course_list_blueprint = Blueprint('course_list_blueprint', __name__)
 
 @course_list_blueprint.route('/course-entry')
 def course_entry():
+   return render_template("course-entry.html")
+
+
+@course_list_blueprint.route('/course-entry', methods=["POST"])
+def add_course():
     course_title = request.form.get("course_title")
     course_reference_book = request.form.get("course_reference_book")
     
@@ -20,7 +25,7 @@ def course_entry():
     return redirect('/')
 
 
-@course_list_blueprint.route('/course-list', methods=["GET", "POST"])
+@course_list_blueprint.route('/course-list', methods=["GET"])
 def list_courses():
     database = CourseDB(g.mysql_db, g.mysql_cursor)
 
