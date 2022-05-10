@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Enter ID of Course To Modify:</h1>
+    <form action="/course-update-select" method="POST">
+        <input autocomplete="off" autofocus name="course_id" placeholder="Course ID" type="text">
+        <input type="submit" value="Update this Course">
+    </form>
+        
+    </ul>
+{% endblock %}

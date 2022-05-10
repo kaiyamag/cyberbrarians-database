@@ -70,7 +70,7 @@ def init_db(config):
     )
     cursor.execute(
         f""" 
-        CREATE TABLE course_members
+        CREATE TABLE course_patrons
         (
             account_id SMALLINT UNSIGNED,
             course_id SMALLINT UNSIGNED,

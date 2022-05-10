@@ -30,3 +30,19 @@ def list_courses():
     database = CourseDB(g.mysql_db, g.mysql_cursor)
 
     return render_template('course-list.html', course_table=database.select_all_courses())
+
+"""
+@course_list_blueprint.route('/course-update-select', methods=["GET", "POST"])
+def select_courses_to_edit():
+    course_id = request.form.get("course_id")
+    database = CourseDB(g.mysql_db, g.mysql_cursor)
+    return render_template('/course-update-modify-form')
+
+
+@course_list_blueprint.route('/course-update-modify-form', methods=["GET", "POST"])
+def update_courses():
+    
+    database = CourseDB(g.mysql_db, g.mysql_cursor)
+
+    return redirect()
+    """
