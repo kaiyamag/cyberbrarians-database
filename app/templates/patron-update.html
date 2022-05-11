@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Patron Modify:</h1>
+    <form action="/patron-update" method="POST">
+        <label for="patron">Select Patron to Update:</label>
+            <select name="account_id" id="patron">
+                {% for patron in patrons %}
+                    <option value={{patron["account_id"]}}>{{patron["first_name"]}}</option>
+                {% endfor %}
+            </select>
+        <br>
+        
+        <h2>New Patron Information:</h2>
+        <input autocomplete="off" name="patron_first_name" placeholder="New Patron First Name" type="text">
+        <input autocomplete="off" name="patron_last_name" placeholder="New Patron Last Name" type="text">
+        <select name="account_type">
+            <option value="STUDENT">Student</option>
+            <option value="PROFESSOR">Professor</option>
+            <option value="STAFF">Staff</option>
+        </select>
+        <input type="submit" value="Update this Patron">
+    </form>
+        
+    </ul>
+{% endblock %}

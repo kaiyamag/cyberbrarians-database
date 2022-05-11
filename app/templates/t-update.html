@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>..... Modify:</h1>
+    <form action="/.....-update" method="POST">
+        <label for=".....">Select ..... to Update:</label>
+            <select name="....._id" id=".....">
+                {% for ..... in .....s %}
+                    <option value={{.....["....._id"]}}>{{.....["....._title"]}}</option>
+                {% endfor %}
+            </select>
+        <br>
+        
+        <h2>New ..... Information:</h2>
+        <input autocomplete="off" name="....._title" placeholder="New ..... description" type="text">
+        <br>
+        <label for=".....">.....:</label>
+            <select name="....._reference_....." id=".....">
+                {% for ..... in .....s %}
+                    <option value={{.....["....._id"]}}>{{.....["title"]}}</option>
+                {% endfor %}
+            </select>
+        <br>
+        <input type="submit" value="Update this .....">
+    </form>
+        
+    </ul>
+{% endblock %}

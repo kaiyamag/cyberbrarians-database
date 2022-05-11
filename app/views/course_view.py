@@ -33,7 +33,7 @@ def list_courses():
     return render_template('course-list.html', course_table=database.select_all_courses())
 
 
-@course_list_blueprint.route('/course-update-select', methods=["GET", "POST"])
+@course_list_blueprint.route('/course-update', methods=["GET", "POST"])
 def select_courses_to_edit():
     course_database = CourseDB(g.mysql_db, g.mysql_cursor)
 
@@ -46,7 +46,7 @@ def select_courses_to_edit():
 
     book_database = BookDB(g.mysql_db, g.mysql_cursor)
     return render_template(
-        '/course-update-select.html',
+        '/course-update.html',
         books=book_database.select_all_books(),
         courses=course_database.select_all_courses()
     )

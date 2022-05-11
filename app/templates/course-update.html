@@ -2,7 +2,7 @@
 
 {% block body %}
     <h1>Course Modify:</h1>
-    <form action="/course-update-select" method="POST">
+    <form action="/course-update" method="POST">
         <label for="course">Select Course to Update:</label>
             <select name="course_id" id="course">
                 {% for course in courses %}
@@ -12,7 +12,7 @@
         <br>
         
         <h2>New Course Information:</h2>
-        <input autocomplete="off" name="course_title" placeholder="New course description" type="text">
+        <input autocomplete="off" name="course_title" placeholder="New Course Name" type="text">
         <br>
         <label for="book">Book:</label>
             <select name="course_reference_book" id="book">

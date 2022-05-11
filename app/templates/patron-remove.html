@@ -2,9 +2,16 @@
 
 {% block body %}
     <h1>Delete Patron:</h1>
-    <form action="/patron-remove" method="DELETE">
-        <input autocomplete="off" autofocus name="account_id" placeholder="Account ID" type="text">
-        <input type="submit" value="Remove Patron">
+    <form action="/patron-remove" method="POST">
+        <label for="patron">Select Patron to Remove:</label>
+            <select name="account_id_to_delete" id="patron">
+                {% for patron in patrons %}
+                    <option value={{patron["account_id"]}}>{{patron["first_name"]}}</option>
+                {% endfor %}
+            </select>
     </form>
+    <br>
+    <br>
+
 
 {% endblock %}

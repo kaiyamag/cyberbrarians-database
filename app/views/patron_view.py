@@ -46,21 +46,26 @@ def add_patron():
         database.insert_patron(new_patron)
 
     return redirect('/')
-'''
-@patron_table_blueprint.route('/update-patron', method=["PUT"])
-def update_patron():
-    patron_first_name = request.form.get("patron_first_name")
-    patron_last_name = request.form.get("patron_last_name")
-    patron_account_type = request.form.get("patron_account_type")
 
-    updated_patron = Patron(patron_first_name, patron_last_name, patron_account_type)
-    database = PatronDB(g.mysql_db, g.mysql_cursor)
 
-    database.update_patron_by_id()
+@patron_table_blueprint.route('/patron-update', methods=["GET", "POST"])
+def select_patrons_to_edit():
+    patron_database = PatronDB(g.mysql_db, g.mysql_cursor)
 
-    return redirect('/')
-    '''
+    if request.method == "POST":
+        account_id = request.form.get("account_id")
+        new_patron_first_name = request.form.get("patron_first_name")
+        new_patron_last_name = request.form.get("patron_last_name")
+        new_account_type = request.form.get("account_type")
+        patron_database.update_patron_by_id(account_id, Patron(new_patron_first_name, new_patron_last_name, new_account_type))
+        return redirect('/')
 
+    return render_template(
+        '/patron-update.html',
+        patrons=patron_database.select_all_patrons()
+    )
+
+    
 @patron_table_blueprint.route('/patron-list', methods=["GET", "POST"])
 def patron_list():
     database = PatronDB(g.mysql_db, g.mysql_cursor)
@@ -70,9 +75,21 @@ def patron_list():
 
 @patron_table_blueprint.route('/patron-remove', methods=['GET', 'DELETE'])
 def patron_delete():
-    account_id_to_delete = request.form.get("account_id")
     database = PatronDB(g.mysql_db, g.mysql_cursor)
 
-    database.delete_patron_by_id(account_id_to_delete)
+    if request.method == 'DELETE':
+        account_id_to_delete = request.form.get("account_id_to_delete")
+        database.delete_patron_by_id(account_id_to_delete)
+        return redirect('/')
 
-    return
+    return render_template(
+        '/patron-remove.html',
+        patrons=database.select_all_patrons()
+    )
+
+"""
+    database = PatronDB(g.mysql_db, g.mysql_cursor)
+    account_id_to_delete = request.form.get("account_id_to_delete")
+    database.delete_patron_by_id(account_id_to_delete)
+    return redirect('/')
+"""
