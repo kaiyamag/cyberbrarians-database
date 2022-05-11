@@ -47,3 +47,30 @@ class Library:
         "publication_year":new_book._publication_year}
 
         return [True, new_book_representation]
+
+    
+    def return_book(self, book_id):
+        """Updates a book to be no longer checked out.
+
+        Args:
+            book_id: The book_id of the book to be returned.
+        
+        Returns:
+            Returns the updated book as a dictionary.
+        """
+
+        database = BookDB(self._db_conn, self._cursor)
+        selected_book = database.select_book_by_id(book_id)
+
+        # if not selected_book:
+        #     return [False, "Selected book not in database"]
+
+        new_book = Book(selected_book[0]["title"], selected_book[0]["author_fname"], 
+        selected_book[0]["author_lname"], selected_book[0]["publication_year"], None)
+
+        database.update_book(book_id, new_book)
+
+        new_book_representation = {"title":new_book._title, "author_fname":new_book._author_fname, "author_lname":new_book._author_lname,
+        "publication_year":new_book._publication_year}
+
+        return new_book_representation

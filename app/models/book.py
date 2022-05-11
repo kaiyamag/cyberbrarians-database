@@ -161,3 +161,22 @@ class BookDB:
         """
         self._cursor.execute(select_available_books)
         return self._cursor.fetchall()
+
+    
+    def select_all_books_by_patron(self, patron_id):
+        """ Returns a list of all books that a given patron has currently 
+        checked out
+
+        Args:
+            patron_id: The account id of a patron
+
+        Returns:
+            list of dictionaries representing books: A list of all books that 
+            are checked out to the given patron
+        """
+
+        select_all_books_by_patron = """
+                SELECT * from books WHERE checked_out_to = %s;
+        """
+        self._cursor.execute(select_all_books_by_patron, (patron_id,))
+        return self._cursor.fetchall()

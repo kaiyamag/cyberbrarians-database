@@ -8,6 +8,7 @@ given route
 from flask import Blueprint, request, redirect
 from flask import render_template, g, Blueprint
 from api.book_api import Book, BookDB
+from api.patron_api import PatronDB
 from models.library import Library
 
 book_list_blueprint = Blueprint('book_list_blueprint', __name__)
@@ -137,7 +138,36 @@ def book_delete():
         database.delete_book_by_id(book_id_to_delete)
         return redirect('/')
 
-    return render_template(
-        '/book-remove.html',
-        books=database.select_all_books()
+    return render_template('/book-remove.html', books=database.select_all_books()
     )
+
+@book_list_blueprint.route('/book-return', methods=['POST'])
+def book_return():
+   """Renders the book-return.html page
+   """
+   database = BookDB(g.mysql_db, g.mysql_cursor)
+   patron_id = request.form.get("account_id")
+
+   return render_template('book-return.html', patrons_books=database.select_all_books_by_patron(patron_id))
+
+
+@book_list_blueprint.route('/enter-patron-id')
+def enter_patron_id():
+   """Gets user's patron id and sends it to the /book-return form
+   """
+
+   database = PatronDB(g.mysql_db, g.mysql_cursor)
+
+   return render_template('enter-patron-id.html', patron_list=database.select_all_patrons())
+
+
+@book_list_blueprint.route('/return-book-to-library', methods=['POST'])
+def return_book_to_library():
+   """Updates book to be available for checkout again
+   """
+   my_library = Library(g.mysql_db, g.mysql_cursor)
+   book_id = request.form.get("book_id")
+
+   my_library.return_book(book_id)
+
+   return redirect('/')
