@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Select Patron or Enter Your Patron ID:</h1>
+
+    <form action="/book-return" method="POST">
+        <label for="patron">Select Patron:</label>
+            <select name="account_id" id="patron">
+                {% for patron in patron_list %}
+                    <option value={{patron["account_id"]}}>{{patron["first_name"]}}</option>
+                {% endfor %}
+            </select>
+        <input type="submit" value="Select Patron">
+    </form>
+<!--
+    <form action="/book-return" method="POST">
+        <input autocomplete="off" autofocus name="account_id" placeholder="Patron ID" type="number">
+        <input type="submit" value="Select Patron by ID"
+    </form>
+    <br>
+    <br>
+-->
+
+
+{% endblock %}

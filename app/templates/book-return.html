@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Your Checked-Out Books:</h1>
+    <form action="/return-book-to-library" method="POST">
+        <label for="book">Select Book to Return:</label>
+            <select name="book_id" id="book">
+                {% for book in patrons_books %}
+                    <option value={{book["book_id"]}}>{{book["title"]}}</option>
+                {% endfor %}
+            </select>
+        <input type="submit" value="Return Book">
+    </form>
+
+{% endblock %}
