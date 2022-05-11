@@ -3,14 +3,6 @@
 {% block body %}
     <h1>Book Modify:</h1>
     <form action="/book-update" method="POST">
-        <label for="book">Select book to Update:</label>
-            <select name="book_id" id="book">
-                {% for book in books %}
-                    <option value={{book["book_id"]}}>{{book["book_title"]}}</option>
-                {% endfor %}
-            </select>
-        <br>
-        
         <h2>New Book Information:</h2>
         <input autocomplete="off" name="book_title" placeholder="New Book Title" type="text">
         <input autocomplete="off" name="author_fname" placeholder="Author's First Name" type="text">
