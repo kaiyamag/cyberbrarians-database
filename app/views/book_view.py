@@ -60,6 +60,25 @@ def add_book():
     return redirect('/')
 
 
+@book_list_blueprint.route('/book-update', methods=["GET", "POST"])
+def edit_books():
+    book_database = BookDB(g.mysql_db, g.mysql_cursor)
+
+    if request.method == "POST":
+        book_id = request.form.get("book_id")
+        new_book_title = request.form.get("book_title")
+        new_book_author_fname = request.form.get("author_fname")
+        new_book_author_lname = request.form.get("author_lname")
+        new_book_publication_year = request.form.get("publication_year")
+        book_database.update_book(book_id, Book(new_book_title,
+            new_book_author_fname, new_book_author_lname, new_book_publication_year, None))
+        return redirect('/')
+
+    book_database = BookDB(g.mysql_db, g.mysql_cursor)
+    return render_template('/book-update.html',
+        books=book_database.select_all_books())
+
+
 @book_list_blueprint.route('/book-checkout-selection')
 def book_checkout_selection():
     """Renders checkout-book.html page with a list of all books available for
@@ -108,3 +127,17 @@ def patron_list():
 
     return render_template('book-list.html', book_table=database.select_all_books())
 
+
+@book_list_blueprint.route('/book-remove', methods=['GET', 'POST'])
+def book_delete():
+    database = BookDB(g.mysql_db, g.mysql_cursor)
+
+    if request.method == 'POST':
+        book_id_to_delete = request.form.get("book_id_to_delete")
+        database.delete_book_by_id(book_id_to_delete)
+        return redirect('/')
+
+    return render_template(
+        '/book-remove.html',
+        books=database.select_all_books()
+    )

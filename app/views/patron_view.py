@@ -49,7 +49,7 @@ def add_patron():
 
 
 @patron_table_blueprint.route('/patron-update', methods=["GET", "POST"])
-def select_patrons_to_edit():
+def edit_patrons():
     patron_database = PatronDB(g.mysql_db, g.mysql_cursor)
 
     if request.method == "POST":

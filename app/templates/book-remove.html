@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Delete Book:</h1>
+    <form action="/book-remove" method="POST">
+        <label for="book">Select Book to Remove:</label>
+            <select name="book_id_to_delete" id="book">
+                {% for book in books %}
+                    <option value={{book["book_id"]}}>{{book["title"]}}</option>
+                {% endfor %}
+            </select>
+        <input type="submit" value="Delete Book">
+    </form>
+    <br>
+    <br>
+
+
+{% endblock %}

@@ -34,7 +34,7 @@ def list_courses():
 
 
 @course_list_blueprint.route('/course-update', methods=["GET", "POST"])
-def select_courses_to_edit():
+def edit_courses():
     course_database = CourseDB(g.mysql_db, g.mysql_cursor)
 
     if request.method == "POST":
