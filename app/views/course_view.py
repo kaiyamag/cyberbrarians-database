@@ -51,11 +51,17 @@ def select_courses_to_edit():
         courses=course_database.select_all_courses()
     )
 
-"""
-@course_list_blueprint.route('/course-update-modify-form', methods=["GET", "POST"])
-def update_courses():
-    
+
+@course_list_blueprint.route('/course-remove', methods=['GET', 'POST'])
+def course_delete():
     database = CourseDB(g.mysql_db, g.mysql_cursor)
 
-    return redirect()
-    """
+    if request.method == 'POST':
+        course_id_to_delete = request.form.get("course_id_to_delete")
+        database.delete_course_by_id(course_id_to_delete)
+        return redirect('/')
+
+    return render_template(
+        '/course-remove.html',
+        courses=database.select_all_courses()
+    )

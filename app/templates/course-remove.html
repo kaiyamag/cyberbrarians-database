@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Delete Course:</h1>
+    <form action="/course-remove" method="POST">
+        <label for="course">Select Course to Remove:</label>
+            <select name="course_id_to_delete" id="course">
+                {% for course in courses %}
+                    <option value={{course["course_id"]}}>{{course["course_title"]}}</option>
+                {% endfor %}
+            </select>
+        <input type="submit" value="Delete Course">
+    </form>
+    <br>
+    <br>
+
+
+{% endblock %}
