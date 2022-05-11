@@ -65,7 +65,7 @@ def select_patrons_to_edit():
         patrons=patron_database.select_all_patrons()
     )
 
-    
+
 @patron_table_blueprint.route('/patron-list', methods=["GET", "POST"])
 def patron_list():
     database = PatronDB(g.mysql_db, g.mysql_cursor)
@@ -73,11 +73,11 @@ def patron_list():
     return render_template('patron-list.html', patron_table=database.select_all_patrons())   
 
 
-@patron_table_blueprint.route('/patron-remove', methods=['GET', 'DELETE'])
+@patron_table_blueprint.route('/patron-remove', methods=['GET', 'POST'])
 def patron_delete():
     database = PatronDB(g.mysql_db, g.mysql_cursor)
 
-    if request.method == 'DELETE':
+    if request.method == 'POST':
         account_id_to_delete = request.form.get("account_id_to_delete")
         database.delete_patron_by_id(account_id_to_delete)
         return redirect('/')
@@ -86,10 +86,3 @@ def patron_delete():
         '/patron-remove.html',
         patrons=database.select_all_patrons()
     )
-
-"""
-    database = PatronDB(g.mysql_db, g.mysql_cursor)
-    account_id_to_delete = request.form.get("account_id_to_delete")
-    database.delete_patron_by_id(account_id_to_delete)
-    return redirect('/')
-"""

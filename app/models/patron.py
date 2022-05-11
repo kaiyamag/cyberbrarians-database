@@ -55,7 +55,7 @@ class PatronDB:
         update_query = """
             UPDATE patrons
             SET first_name = %s, last_name =%s, account_type = %s
-            WHERE id=%s;
+            WHERE account_id=%s;
         """
 
         self._cursor.execute(update_query, (updated_patron._first_name, updated_patron._last_name, updated_patron._account_type, account_id))

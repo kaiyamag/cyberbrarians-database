@@ -2,9 +2,17 @@
 
 {% block body %}
     <h1>Delete .....:</h1>
-    <form action="/.....-remove" method="DELETE">
-        <input autocomplete="off" autofocus name="....." placeholder="....." type="text">
-        <input type="submit" value="Remove .....">
+    <form action="/.....-remove" method="POST">
+        <label for=".....">Select ..... to Remove:</label>
+            <select name=",,,,,_id_to_delete" id=".....">
+                {% for ..... in .....s %}
+                    <option value={{.....[",,,,,_id"]}}>{{.....["first_name"]}}</option>
+                {% endfor %}
+            </select>
+        <input type="submit" value="Delete .....">
     </form>
+    <br>
+    <br>
+
 
 {% endblock %}
