@@ -34,11 +34,11 @@ class CourseDB:
         return self._cursor.fetchall()
 
 
-    def select_all_courses_by_title(self, title):
+    def select_all_courses_by_title(self, course_title):
         select_courses_by_title = """
-            SELECT * from courses WHERE title LIKE %s;
+            SELECT * from courses WHERE course_title LIKE %s;
         """
-        self._cursor.execute(select_courses_by_title, (f"%{title}%",))
+        self._cursor.execute(select_courses_by_title, (f"%{course_title}%",))
         return self._cursor.fetchall()
 
 
