@@ -7,6 +7,7 @@ Routes for the API and logic for managing Books.
 from flask import g, request, jsonify, Blueprint
 
 from models.book import Book, BookDB
+from models.library import Library
 
 # Establish the blueprint to link it to the flask app file (main_app.py)
 #   Need to do this before you create your routes
@@ -142,10 +143,40 @@ def checkout_book(patron_id, book_id):
     my_library = Library(g.mysql_db, g.mysql_cursor)
         
     book = my_library.checkout_book(patron_id, book_id) 
-    if new_book[0] == False:
+
+    if book[0] == False:
         # Conflict: the book could not be checked out
-        return jsonify({"status": "failure", "patron_id": result['patron_id'], 
-        "book_id": result['book_id']}), 409 
+        return jsonify({"status": "failure", "patron_id": patron_id, 
+        "book_id": book_id}), 409 
     else:
-        return jsonify({"status": "success", "patron_id": result['patron_id'], 
-        "book_id": result['book_id']}), 200
+        return jsonify({"status": "success", "patron_id": patron_id, 
+        "book_id": book_id}), 200
+
+
+    @book_api_blueprint.route('/api/v1/books/return-book/<int:book_id>/', methods=["POST"])
+    def return_book(self, book_id):
+        """Updates a book to be no longer checked out.
+
+        Args:
+            book_id: The book_id of the book to be returned.
+        
+        Returns:
+            json: A status message including the book_id of the returned book
+            HTML status code: 200 if successful
+        """
+
+        # database = BookDB(self._db_conn, self._cursor)
+        # selected_book = database.select_book_by_id(book_id)
+
+        # # if not selected_book:
+        # #     return [False, "Selected book not in database"]
+
+        # new_book = Book(selected_book[0]["title"], selected_book[0]["author_fname"], 
+        # selected_book[0]["author_lname"], selected_book[0]["publication_year"], None)
+
+        #bookdb = BookDB(g.mysql_db, g.mysql_cursor)
+        my_library = Library(g.mysql_db, g.mysql_cursor)
+            
+        my_library.return_book(book_id) 
+
+        return jsonify({"status": "success", "book_id": book_id}), 200

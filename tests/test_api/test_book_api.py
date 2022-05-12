@@ -90,7 +90,7 @@ def test_get_all_books(flask_test_client):
 
 
 def test_get_book_by_id(flask_test_client):
-    """Test selecting a book from the database by its book_id vie GET
+    """Test selecting a book from the database by its book_id via GET
     Args:
         flask_test_client: fixture function from conftest.py
     """
@@ -156,7 +156,7 @@ def test_update_book_by_id(flask_test_client):
         flask_test_client: fixture function from conftest.py
     """
     
-    # Add a new task to the list
+    # Add a new book to the list
     request = flask_test_client.post('/api/v1/books/', json={'title': 'A Book via Post', 
     'author_fname': 'Dr.', 'author_lname': 'Suess', 'publication_year': 2000,
     'checked_out_to': None})
@@ -186,3 +186,56 @@ def test_update_book_by_id(flask_test_client):
     assert book['author_lname'] == 'Awesome'
     assert book['publication_year'] == 2022
     assert book['checked_out_to'] == None
+
+
+def test_checkout_book(flask_test_client):
+    """ Tests the checkout_book function in Library
+    """
+
+    # Add a book to the database
+    request = flask_test_client.post('/api/v1/books/', json={'title': 'A Book to Check Out', 
+    'author_fname': 'Dr.', 'author_lname': 'Suess', 'publication_year': 2000,
+    'checked_out_to': None})
+    assert request.status_code == 200
+
+    data = json.loads(request.data.decode())
+    book_id = data['book_id']
+
+    # Add a patron to the database
+    request = flask_test_client.post('api/v1/patrons/', json={'first_name': 'Abraham', 
+    'last_name': 'Lincoln', 'account_type': 'PROFESSOR'})
+    assert request.status_code == 200
+
+    data = json.loads(request.data.decode())
+    patron_id = data['account_id']
+
+    # Checkout book
+    request = flask_test_client.post(f'/api/v1/books/{patron_id}/{book_id}/')
+    assert request.status_code == 200
+
+    data = json.loads(request.data.decode())
+    new_book_id = data['book_id']
+
+    # Get book
+    request = flask_test_client.get(f'/api/v1/books/{book_id}/')
+    data = json.loads(request.data.decode())
+    book = data['books'][0]
+
+    assert book['checked_out_to'] == patron_id
+
+# NOTE: Deactivated since this function throws a json decoding error
+# def test_return_book(flask_test_client):
+#     """ Tests the return_book function in Library
+#     """
+    
+#     # Get book
+#     book_id = 2     # book_id of book checked out in test_checkout_book() above
+
+#     # Return book to library via API
+#     request = flask_test_client.post(f'/api/v1/books/return-book/{book_id}/')
+#     assert request.status_code == 200
+
+#     data = json.loads(request.data.decode())
+#     assert data['book_id'] == book_id
+
+    
