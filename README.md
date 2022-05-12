@@ -1,6 +1,9 @@
-# Final Project Name
+# The Cyberbrary
 
 ## Description
+This application is a simple library management application for a school like the College of Wooster. Our library management application tracks of books in the library, library patrons, and textbooks required by courses at the school. A user can add books and patrons to the library, check out books, return books and create courses with assigned textbooks. In addition, the application supports creating, reading, updating, and deleting books, patrons, and courses via the HTML interface and the API routes described below.
+
+ 
 
 ## API Documentation
 The following API routes are available to interact with the application:
@@ -30,19 +33,25 @@ PUT from `/api/v1/books/<int:book_id>`
 DELETE from `/api/v1/books/<int:book_id>`
 	* Deletes the book with the corresponding book_id.
 
+POST from ``/api/v1/books/<int:patron_id>/<int:book_id>/``
+	* Checks out the book with the given book_id to the patron indicated by the patron_id
+
+POST from ``/api/v1/books/return-book/<int:book_id>/``
+	* Returns the book indicated by the given book_id if that book was checked out. **This function is currently deactivated.**
+
 **PATRONS:**
 GET from `/api/v1/patrons/`
 	* /patrons/ returns a list of all patrons as dictionaries 
 	* /patrons/{account_id} returns the patron with the corresponding patron_id
-	* /patrons/?search="search term" returns a list of patrons with a last name matching the search term
+	* /patrons/?search="search term" returns a list of patrons with a last name matching the search term. **This function is currently deactivated.**
 
 POST from `/api/v1/patrons/`
-	* Adds a patron record to the database. Must post an patron book as a dictionary, including all fields:
+	* Adds a patron record to the database. Must post a patron as a dictionary, including all fields:
 		+ First_name
 		+ Last_name
 		+ Account_type (can only be 'STUDENT', 'PROFESSOR', or 'STAFF')
 For example: 
-    {'first_name': 'Kaiya', 'last_name': 'Magnuson', 'account_type': 'STUDENT'}
+    ``{'first_name': 'Kaiya', 'last_name': 'Magnuson', 'account_type': 'STUDENT'}``
 
 PUT from `/api/v1/patrons/<int:account_id>`
 	* Updates the patron with the corresponding account_id. Must put an entire patron (as explained above) which will replace the attributes of the patron with the given patron_id
@@ -50,4 +59,22 @@ PUT from `/api/v1/patrons/<int:account_id>`
 DELETE from `/api/v1/patrons/<int:account_id>`
 	* Deletes the patron with the corresponding account_id.
 
-    
+
+**Courses:**
+GET from `/api/v1/coursess/`
+	* /courses/ returns a list of all courses as dictionaries 
+	* /courses/{account_id} returns the course with the corresponding course_id
+	* /courses/?search="search term" returns a list of courses with a course title matching the search term
+
+POST from `/api/v1/courses/`
+	* Adds a course record to the database. Must post a patron as a dictionary, including all fields:
+		+ course_title
+		+ reference_book (must be a book_id of a book currently in the books table)
+For example: 
+    ``{'course_title': 'Intro to Ceramics', 'reference_book': 1}``
+
+PUT from `/api/v1/courses/<int:course_id>`
+	* Updates the course with the corresponding course_id. Must put an entire course (as explained above) which will replace the attributes of the course with the given course_id
+
+DELETE from `/api/v1/courses/<int:course_id>`
+	* Deletes the course with the corresponding course_id.
