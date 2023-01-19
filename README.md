@@ -5,10 +5,10 @@ This application is a simple library management application for a school like th
 
 ## Launching The Project in a Virtual Environment
 1. Follow "First Time Setup" instructions in `IMPORTANT.md` to create virtual environment
-2. Activate virtual environment: $env\scripts\activate    
-3. Install required libraries: $pip install -r requirements.txt
-4. Initialize database: $flask initdb
-5. Run webpage: $flask run
+2. Activate virtual environment: `$env\scripts\activate`    
+3. Install required libraries if not done already: `$pip install -r requirements.txt`
+4. Initialize database: `$flask initdb`
+5. Run webpage: `$flask run`
 	
 The database will be initialized with no books, patrons, or courses. Use the website GUI to add at least one of each, then try out features like
 checking out a book, updating a patron, or deleting a course!
