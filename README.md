@@ -4,13 +4,14 @@
 This application is a simple library management application for a school like the College of Wooster. Our library management application tracks  books in the library, library patrons, and textbooks required by courses at the school. A user can add books and patrons to the library, check out books, return books and create courses with assigned textbooks. In addition, the application supports creating, reading, updating, and deleting books, patrons, and courses via the HTML interface and the API routes described below.
 
 ## Launching The Project in a Virtual Environment
-	1. Create virtual environment in the project directory: $python -m venv env   
-	2. Activate virtual environment: $env\scripts\activate    
-	3. Install required libraries: $pip install -r requirements.txt
-	4. Initialize database: $flask initdb
-	5. Run webpage: $flask run
+1. Follow `First Time Setup` instructions in `IMPORTANT.md to create virtual environment
+2. Activate virtual environment: $env\scripts\activate    
+3. Install required libraries: $pip install -r requirements.txt
+4. Initialize database: $flask initdb
+5. Run webpage: $flask run
 	
-Please see IMPORTANT.md for more detailed instructions
+The database will be initialized with no books, patrons, or courses. Use the website GUI to add at least one of each, then try out features like
+checking out a book, updating a patron, or deleting a course!
  
 ## API Documentation
 The following API routes are available to interact with the application:
